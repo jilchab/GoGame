@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/jilchab/GoGame/mypkg/game"
+	//"github.com/jilchab/GoGame/mypkg/game"
 )
 type Weapon struct {
 	name string
@@ -37,9 +37,6 @@ func main () {
 
 	//Player := Perso{"Hero",1,100,Weapon{"sword",20}}
 	//Gobgob := Perso{"Gobgob",1,30,Weapon{"pickaxe",10}}
-
-go e	c := game.coucou{"hey"}
-
 
 
 	fmt.Println("Hello World")
