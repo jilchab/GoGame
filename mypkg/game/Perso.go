@@ -38,7 +38,6 @@ func (p *Perso) Attack(enemy *Perso) (b bool){
 func CleanDeads(a []Perso) {
 	var aCopy []Perso;
 	copy(aCopy, a)
-
 	for i:=range aCopy {
 		fmt.Println(aCopy[i])
 	}
