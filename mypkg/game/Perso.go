@@ -1,6 +1,10 @@
 package game
 
-import "fmt"
+import (
+	"fmt"
+
+	"time"
+)
 //import. "unsafe"
 
 type Perso struct {
@@ -14,16 +18,16 @@ func (p *Perso) Attack(enemy *Perso) (b bool){
 	if p.Hp == 0 {b = false}
 	if enemy.Hp > 0 {
 		enemy.Hp -= p.Wpn.Damage
-		fmt.Printf("%s attacks %s with his %s\n",p.Name,enemy.Name,p.Wpn.Name)
+		fmt.Println(p.Name, "attacks",enemy.Name,"with his",p.Wpn.Name)
 		if(enemy.Hp < 0) {
 			enemy.Hp = 0
-			fmt.Printf("%s is dead\n", enemy.Name)
+			fmt.Println(enemy.Name,"is dead")
 			//i := (Sizeof(enemy)-Sizeof(array))/Sizeof(array[0])
 			//array = append(array[:i],array[i+1]...)
 			b = true
 
 		} else {
-			fmt.Printf("%s has now %d hp\n",enemy.Name, enemy.Hp)
+			fmt.Println(enemy.Name, "has now", enemy.Hp,"hp")
 		}
 	} else {
 		fmt.Println(enemy.Name,"is already dead!")
@@ -34,17 +38,23 @@ func (p *Perso) Attack(enemy *Perso) (b bool){
 	return
 
 }
+func removePerso(a []Perso,index int) []Perso {
+	a = append(a[:index],a[index+1:]...)
+	b := make([]Perso, len(a),cap(a)-1)
+	copy(b, a)
+	return b
+}
 
 func CleanDeads(a []Perso) {
-	var aCopy []Perso;
-	copy(aCopy, a)
-	for i:=range aCopy {
-		fmt.Println(aCopy[i])
-	}
+	lenght := len(a)
 
-	for i :=range aCopy {
-		if(aCopy[i].Hp == 0) {
-			a = append(a[:i],a[i+1:]...)
+	for i := 0 ; i < lenght ; i++ {
+		if(a[i].Hp == 0) {
+			a = removePerso(a,i)
+			i--
+			lenght--
 		}
+		fmt.Println(cap(a), len(a))
+		time.Sleep(time.Second)
 	}
 }

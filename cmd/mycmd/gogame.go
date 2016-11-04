@@ -2,10 +2,9 @@ package main
 
 import (
 	. "github.com/jilchab/GoGame/mypkg/game"
-	"fmt"
+	//"fmt"
+	"time"
 )
-
-
 
 
 func main () {
@@ -29,11 +28,13 @@ func main () {
 	for i :=range Gobgobs {
 		Player.Attack(&Gobgobs[i])
 	}
-	CleanDeads(Gobgobs[:])
+	time.Sleep(time.Second)
+	CleanDeads(Gobgobs)
 
-	for _,g:=range Gobgobs {
-		fmt.Println(g)
-	}
+
+
+
+
 
 
 }
