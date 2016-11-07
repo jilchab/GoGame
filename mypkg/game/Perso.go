@@ -2,59 +2,50 @@ package game
 
 import (
 	"fmt"
-
-	"time"
 )
 //import. "unsafe"
 
+type Dammageable interface {
+	Hurt(dammage int)
+	Heal(heal int)
+}
 type Perso struct {
-
 	Name string
-	Lvl, Hp int
+	Lvl, Hp, hpMax int
 	Wpn Weapon
 }
 
-func (p *Perso) Attack(enemy *Perso) (b bool){
+func (p *Perso) Hurt(dammage int) {
+	p.Hp -= dammage
+	if(p.Hp < 0) {p.Hp = 0}
+}
+func (p *Perso) Heal (heal int) {
+	p.Hp += heal
+	if(p.Hp > p.hpMax) {p.Hp = p.hpMax}
+}
+
+func (p *Perso) Attack(enemy *Perso, log bool) (b bool){
 	if p.Hp == 0 {b = false}
 	if enemy.Hp > 0 {
 		enemy.Hp -= p.Wpn.Damage
-		fmt.Println(p.Name, "attacks",enemy.Name,"with his",p.Wpn.Name)
+		if log{fmt.Println(p.Name, "attacks",enemy.Name,"with his",p.Wpn.Name)}
 		if(enemy.Hp < 0) {
 			enemy.Hp = 0
-			fmt.Println(enemy.Name,"is dead")
-			//i := (Sizeof(enemy)-Sizeof(array))/Sizeof(array[0])
-			//array = append(array[:i],array[i+1]...)
+			if log{fmt.Println(enemy.Name,"is dead")}
 			b = true
 
 		} else {
-			fmt.Println(enemy.Name, "has now", enemy.Hp,"hp")
+			if log{fmt.Println(enemy.Name, "has now", enemy.Hp,"hp")}
 		}
 	} else {
-		fmt.Println(enemy.Name,"is already dead!")
+		if log{fmt.Println(enemy.Name,"is already dead!")}
 		b =  true
 	}
-
+	fmt.Scanln()
+	Clear()
 	b = false
 	return
 
 }
-func removePerso(a []Perso,index int) []Perso {
-	a = append(a[:index],a[index+1:]...)
-	b := make([]Perso, len(a),cap(a)-1)
-	copy(b, a)
-	return b
-}
 
-func CleanDeads(a []Perso) {
-	lenght := len(a)
 
-	for i := 0 ; i < lenght ; i++ {
-		if(a[i].Hp == 0) {
-			a = removePerso(a,i)
-			i--
-			lenght--
-		}
-		fmt.Println(cap(a), len(a))
-		time.Sleep(time.Second)
-	}
-}
